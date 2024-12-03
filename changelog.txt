@@ -1,0 +1,107 @@
+10/22/2024, version 1.3.3
+- toc update for 11.0.5 and 1.15.4 patch
+
+08/13/2024, version 1.3.2
+- toc update for 11.0.2 patch
+
+07/23/2024, version 1.3.1
+- Thanks to p3lim from wowinterface, this addon will now work regardless of the ActionButtonUseKeyDown setting and no longer need to change it
+- toc update for 11.0.0 and 1.15.3 patch
+
+07/07/2024, verison 1.3.0
+- Updated to work on The War Within beta/PTR clients (when 'Load out of date AddOns' is enabled)
+
+05/07/2024, version 1.2.13
+- toc update for 10.2.7 patch
+
+04/30/2024, version 1.2.12
+- Fix for lua error on Cataclysm Classic clients
+- toc update for 1.15.2 and 4.4 patch
+
+03/19/2024, version 1.2.11
+- toc update for 10.2.6 patch
+
+03/10/2024, version 1.2.10
+- toc update for 1.15.1 patch
+
+01/16/2024, version 1.2.9
+- toc update for 10.2.5 patch
+
+11/07/2023, version 1.2.8
+- toc update for 10.2 patch
+- toc update for 3.4.3 patch
+
+09/05/2023, version 1.2.7
+- toc update for 10.1.7 patch
+
+08/24/2023, version 1.2.6
+- toc update for 1.14.4 amd 3.4.2 patches
+
+07/11/2023, version 1.2.5
+- toc update for 10.1.5 patch
+
+05/03/2023, version 1.2.4
+- toc update for icon and 10.1.0 patch
+
+03/21/2023, version 1.2.3
+- toc update for 10.0.7 patch
+
+01/25/2023, version 1.2.2
+- toc update for 10.0.5 patch
+
+01/19/2023, version 1.2.1
+- toc update for 3.4.1 patch
+
+12/01/2022, version 1.2.0
+- Resurrected for Dragonflight clients with a caveat: Blizzard now requires ActionButtonUseKeyDown to be enabled for this to work. This addon needs to disable this setting on key press and enable on key release. Additionally, some other addons are sensitive to changes to this setting. USING THIS ADDON IN DRAGONFLIGHT MAY CAUSE ISSUES WITH OTHER ADDONS. Use at your own risk. Blizzard has made it so I cannot make this work for everyone.
+
+10/22/2022, version 1.1.12
+- Fix for dropping items onto window in WoTLK Classic clients
+- Note: As of the Dragonflight pre-patch, this addon will cease to work on retail clients. Unfortunately, Blizzard has made changes that make this addon's functionality (cast one thing on key down, another on key up) impossible.
+
+09/01/2022, version 1.1.11
+- toc update for WotLK Classic
+
+08/16/2022, version 1.1.10
+- toc update for 9.2.7 patch
+
+05/31/2022, version 1.1.9
+- toc update for 9.2.5 patch
+
+05/22/2022, version 1.1.8
+- Added wago and curse project IDs to toc
+
+05/12/2022, version 1.1.7
+- Fix to make wowup recognize the wowinterface provider. (May require a rescan of folders in wowup)
+
+03/26/2022, version 1.1.6
+- Added support for Meta-modified binds for Mac users (courtesy of Portalbendarwinden)
+- Updated toc for Classic and BCC clients
+
+02/22/022, version 1.1.5
+- toc update for 9.2
+
+11/02/2021, version 1.1.4
+- toc update for 9.1.5
+
+06/29/2021, version 1.1.3
+- toc update for 9.1.0
+
+05/18/2021, version 1.1.2
+- Update for The Burning Crusade Classic
+
+03/13/2021, version 1.1.1
+- toc update for 9.0.5
+
+02/15/2012, version 1.1.0
+- The UI has been reworked.
+- The "down" and "up" macros are now editable for each bind. So you can add @player, spec, rank, or any other customization to every bind.
+- While in targeting mode, right-click to the game world will cancel the cast.
+- Binds can be created for items as well as spells.
+- Binds can be created for toys but the game client doesn't support casting toys @cursor. A warning will display.
+- Binds can be created with mouse buttons but the game client doesn't fully support Grounded's casting from mouse clicks to the game world. A warning will display.
+- Dragging/dropping a spell or item onto the list anywhere will create a new binding, instead of only the "new" list button.
+- A spell or item can now have multiple binds by adding new copies to the list.
+
+01/23/2021, version 1.0.0
+- initial release

@@ -1,0 +1,589 @@
+<Ui>
+
+    <Texture name="GroundedBorderTextureTemplate" file="Interface\Tooltips\UI-Tooltip-Border" virtual="true">
+        <Size x="10" y="10"/>
+        <Color r="0.4" g="0.4" b="0.4"/>
+    </Texture>
+
+    <Frame name="GroundedBorderTemplate" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <!-- background -->
+                <Texture parentArray="borders" inherits="GroundedBorderTextureTemplate" file="Interface\ChatFrame\ChatFrameBackground" alpha="0.075">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="3" y="-3"/>
+                        <Anchor point="BOTTOMRIGHT" x="-3" y="3"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <!-- top -->
+                <Texture parentArray="borders" inherits="GroundedBorderTextureTemplate">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                    <TexCoords left="0.5078125" right="0.5859375" top="0.0625" bottom="0.6875"/>
+                </Texture>
+                <Texture parentArray="borders" inherits="GroundedBorderTextureTemplate">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT"/>
+                    </Anchors>
+                    <TexCoords left="0.6640625" right="0.7421875" top="0.0625" bottom="0.6875"/>
+                </Texture>
+                <Texture parentArray="borders" inherits="GroundedBorderTextureTemplate">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="10" y="0"/>
+                        <Anchor point="TOPRIGHT" x="-10" y="0"/>
+                    </Anchors>
+                    <TexCoords left="0.5859375" right="0.6640625" top="0.0625" bottom="0.6875"/>
+                </Texture>
+                <!-- bottom -->
+                <Texture parentArray="borders" inherits="GroundedBorderTextureTemplate">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT"/>
+                    </Anchors>
+                    <TexCoords left="0.7578125" right="0.8359375" top="0.3125" bottom="0.9375"/>
+                </Texture>
+                <Texture parentArray="borders" inherits="GroundedBorderTextureTemplate">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                    <TexCoords left="0.9140625" right="0.9921875" top="0.3125" bottom="0.9375"/>
+                </Texture>
+                <Texture parentArray="borders" inherits="GroundedBorderTextureTemplate">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="10" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" x="-10" y="0"/>
+                    </Anchors>
+                    <TexCoords left="0.8359375" right="0.9140625" top="0.3125" bottom="0.9375"/>
+                </Texture>
+                <!-- sides -->
+                <Texture parentArray="borders" inherits="GroundedBorderTextureTemplate">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="-10"/>
+                        <Anchor point="BOTTOMLEFT" x="0" y="10"/>
+                    </Anchors>
+                    <TexCoords left="0.0078125" right="0.0859375" top="0" bottom="0.625"/>
+                </Texture>
+                <Texture parentArray="borders" inherits="GroundedBorderTextureTemplate">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="0" y="-10"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="10"/>
+                    </Anchors>
+                    <TexCoords left="0.1640625" right="0.2421875" top="0" bottom="0.625"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                if self.isWarning then
+                    for _,border in ipairs(self.borders) do
+                        border:SetVertexColor(1,0,0)
+                    end
+                end
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Button name="GroundedBorderButtonTemplate" inherits="GroundedBorderTemplate" virtual="true">
+        <Scripts>
+            <OnEnter>
+                for _,border in ipairs(self.borders) do
+                    border:SetVertexColor(0.5,0.75,1)
+                end
+            </OnEnter>
+            <OnLeave>
+                for _,border in ipairs(self.borders) do
+                    border:SetVertexColor(0.4,0.4,0.4)
+                end
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+
+    <ScrollFrame name="GroundedEditBoxTemplate" inherits="InputScrollFrameTemplate" virtual="true">
+		<KeyValues>
+			<KeyValue key="maxLetters" value="512" type="number"/>
+			<KeyValue key="hideCharCount" value="true" type="boolean"/>
+			<KeyValue key="cursorOffset" value="0" type="number"/>
+		</KeyValues>
+    </ScrollFrame>
+
+    <!-- template for buttons in the listInset, displays bind's icon, spell name and binding -->
+    <Button name="GroundedListButtonTemplate" inherits="GroundedBorderButtonTemplate" virtual="true">
+        <Size x="259" y="48"/>
+        <Layers>
+            <Layer level="BORDER">
+                <!-- the icon for the spell or item -->
+                <Texture parentKey="icon" file="Interface\PaperDollInfoFrame\Character-Plus">
+                    <Size x="38" y="38"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="5" y="0"/>
+                    </Anchors>
+                    <TexCoords left="0.075" right="0.925" top="0.075" bottom="0.925"/>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <!-- border overlaying the icon for a consistent look -->
+                <Texture file="Interface\Buttons\UI-QuickSlot2">
+                    <Size x="40" y="40"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.icon" relativePoint="TOPLEFT" x="-1" y="1"/>
+                    </Anchors>
+                    <TexCoords left="0.1875" right="0.796875" top="0.1875" bottom="0.796875"/>
+                </Texture>
+                <!-- spellText is the fontstring displaying the spell/item name -->
+                <FontString parentKey="spellText" inherits="GameFontHighlight" justifyH="LEFT">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.icon" relativePoint="TOPRIGHT" x="4" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="RIGHT" x="-4" y="0"/>
+                    </Anchors>
+                </FontString>
+                <!-- bindText is the fontstring displaying the key bound to this spell/item -->
+                <FontString parentKey="bindText" inherits="GameFontHighlight" justifyH="LEFT">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="4" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" x="-4" y="5"/>
+                    </Anchors>
+                </FontString>
+                <!-- instructions is text that spans the whole button -->
+                <FontString parentKey="instructionsText" inherits="GameFontHighlight" justifyH="LEFT" text="Place a spell or item here to create a new key bind">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.icon" relativePoint="TOPRIGHT" x="4" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" x="-4" y="5"/>
+                    </Anchors>
+                    <Color r="0.75" g="0.75" b="0.75"/>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <!-- on mouse down/up, make the whole button "push" by nudging it -1,-2 -->
+            <OnMouseDown>
+                self.anchorPoint,self.relativeTo,self.relativePoint,self.xoff,self.yoff = self:GetPoint(1)
+                self:SetPoint(self.anchorPoint,self.relativeTo,self.relativePoint,self.xoff-1,self.yoff-2)
+                self.isDown = true
+            </OnMouseDown>
+            <OnMouseUp>
+                self:SetPoint(self.anchorPoint,self.relativeTo,self.relativePoint,self.xoff,self.yoff)
+                self.isDown = false
+            </OnMouseUp>
+            <!-- in case button was pushed when it was hidden, return it to its original point -->
+            <OnShow>
+                if self.isDown and self.xoff then
+                    self:SetPoint(self.anchorPoint,self.relativeTo,self.relativePoint,self.xoff,self.yoff)
+                end
+            </OnShow>
+            <!-- grounded.listInset.scrollFrame.content.buttons -->
+            <OnClick>
+                self:GetParent():GetParent():GetParent().ButtonOnClick(self,button)
+            </OnClick>
+            <OnReceiveDrag>
+                self:GetParent():GetParent():GetParent().ButtonOnReceiveDrag(self)
+            </OnReceiveDrag>
+        </Scripts>
+    </Button>
+
+    <!-- template for the red buttons along bottom of the window -->
+    <Button name="GroundedPanelButtonTemplate" inherits="UIPanelButtonTemplate" virtual="true">
+        <Size x="97" y="22"/>
+        <Scripts>
+            <OnClick>
+                if self.OnClick then
+                    self.OnClick(self,button)
+                end
+            </OnClick>
+        </Scripts>
+    </Button>
+
+    <!-- template for the inset used by listInset, bindInset, editInset -->
+    <Frame name="GroundedInsetFrameTemplate" inherits="InsetFrameTemplate" virtual="true">
+        <Anchors>
+            <Anchor point="TOPLEFT" x="4" y="-60"/>
+            <Anchor point="BOTTOMRIGHT" x="-6" y="28"/>
+        </Anchors>
+    </Frame>
+
+    <ScrollFrame name="GroundedScrollFrameTemplate" inherits="UIPanelScrollFrameCodeTemplate" virtual="true">
+        <Size x="100" y="100"/>
+        <Anchors>
+            <Anchor point="TOPLEFT" x="6" y="-6"/>
+            <Anchor point="BOTTOMRIGHT" x="-6" y="2"/>
+        </Anchors>
+		<Frames>
+			<Slider name="$parentScrollBar" inherits="UIPanelScrollBarTemplate" parentKey="ScrollBar">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="2" y="-16"/>
+					<Anchor point="BOTTOMRIGHT" x="2" y="16"/>
+				</Anchors>
+			</Slider>
+		</Frames>
+        <Layers>
+            <!-- artwork for scrollbar -->
+            <Layer level="ARTWORK">
+                <Texture parentKey="top" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                    <Size x="24" y="48"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="4" y="3"/>
+                    </Anchors>
+                    <TexCoords left="0" right="0.45" top="0" bottom=".20"/>
+                </Texture>
+                <Texture parentKey="bottom" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                    <Size x="24" y="64"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="4" y="-1"/>
+                    </Anchors>
+                    <TexCoords left="0.515625" right="0.97" top="0.1440625" bottom="0.4140625"/>
+                </Texture>
+                <Texture file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.top" relativePoint="BOTTOMLEFT"/>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.bottom" relativePoint="TOPRIGHT"/>
+                    </Anchors>
+                    <TexCoords left="0" right="0.45" top="0.1640625" bottom="1"/>
+                </Texture>
+            </Layer>
+        </Layers>
+    </ScrollFrame>
+
+    <!-- only visible window and namespace to the addon -->
+    <Frame name="GroundedFrame" parent="UIParent" clampedToScreen="true" movable="true" frameStrata="HIGH" topLevel="true" inherits="PortraitFrameTemplate" hidden="true">
+        <Size x="301" y="420"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Layers>
+            <Layer level="ARTWORK">
+                <!-- warning that displays in top space while in combat -->
+                <FontString parentKey="combatWarning" inherits="GameFontHighlight" text="You are in combat. Any changes will take effect when combat ends.">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="64" y="-24"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-12" y="-64"/>
+                    </Anchors>
+                    <Color r="1" g="0.82" b="0.5"/>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+
+            <!-- listInset: the list of bindings (default view) -->
+            <Frame parentKey="listInset" inherits="GroundedInsetFrameTemplate">
+                <Frames>
+                    <!-- red ok button in bottomright -->
+                    <Button parentKey="okButton" inherits="GroundedPanelButtonTemplate" text="OKAY">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-1"/>
+                        </Anchors>
+                    </Button>
+                    <!-- click capture for receiving drags/dropped spells/item on empty area of list -->
+                    <Button parentKey="clickCapture" registerForClicks="AnyDown" setAllPoints="true">
+                        <Scripts>
+                            <OnClick>
+                                self:OnClick(button)
+                            </OnClick>
+                            <OnReceiveDrag>
+                                self:OnClick(button)
+                            </OnReceiveDrag>
+                        </Scripts>
+                    </Button>
+                    <!-- scrollframe with list of bindings -->
+                    <ScrollFrame parentKey="scrollFrame" inherits="GroundedScrollFrameTemplate">
+                        <ScrollChild>
+                            <Frame parentKey="content">
+                                <Size x="100" y="100"/>
+                                <Frames>
+                                    <!-- grounded.listInset.scrollFrame.content.buttons[] -->
+                                    <Button parentArray="buttons" inherits="GroundedListButtonTemplate">
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT"/>
+                                        </Anchors>
+                                    </Button>
+                                </Frames>
+                            </Frame>
+                        </ScrollChild>
+                    </ScrollFrame>
+                </Frames>
+            </Frame> <!-- end listInset -->
+
+            <!-- bindInset: binding tab once a new spell/item dropped or an existing bind in list opened -->
+            <Frame parentKey="bindInset" inherits="GroundedInsetFrameTemplate" hidden="true">
+                <Frames>
+                    <!-- red panel buttons across bottom -->
+                    <Button parentKey="cancelButton" inherits="GroundedPanelButtonTemplate" text="CANCEL">
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-1"/>
+                        </Anchors>
+                    </Button>
+                    <Button parentKey="saveButton" inherits="GroundedPanelButtonTemplate" text="SAVE">
+                        <Anchors>
+                            <Anchor point="TOP" relativePoint="BOTTOM" x="0" y="-1"/>
+                        </Anchors>
+                    </Button>
+                    <Button parentKey="unbindButton" inherits="GroundedPanelButtonTemplate" text="Unbind">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-1"/>
+                        </Anchors>
+                    </Button>
+                    <!-- captures key/mouse clicks -->
+                    <Button parentKey="keyCapture" registerForClicks="AnyDown" setAllPoints="true">
+                        <Scripts>
+                            <OnKeyDown>
+                                self:OnKeyDown(key)
+                            </OnKeyDown>
+                            <OnClick>
+                                if button~="LeftButton" and button~="RightButton" then
+                                    self:OnKeyDown(button)
+                                end
+                            </OnClick>
+                        </Scripts>
+                    </Button>
+                    <!-- scrollframe for setting bind -->
+                    <ScrollFrame parentKey="scrollFrame" inherits="GroundedScrollFrameTemplate">
+                        <ScrollChild>
+                            <Frame parentKey="content">
+                                <Size x="100" y="100"/>
+                                <Frames>
+                                    <!-- spellFrame: display of the spell being bound -->
+                                    <Frame parentKey="spellFrame" inherits="GroundedBorderTemplate">
+                                        <Size x="259" y="48"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT"/>
+                                        </Anchors>
+                                        <Layers>
+                                            <Layer level="BORDER">
+                                                <!-- spellText is the fontstring displaying the spell/item name (max width 208) -->
+                                                <FontString parentKey="spellText" inherits="GameFontHighlightLarge" justifyH="LEFT" text="Heroic Leap">
+                                                    <Anchors>
+                                                        <Anchor point="CENTER" x="22" y="0"/>
+                                                    </Anchors>
+                                                </FontString>
+                                                <!-- the icon for the spell or item -->
+                                                <Texture parentKey="icon" file="Interface\PaperDollInfoFrame\Character-Plus">
+                                                    <Size x="38" y="38"/>
+                                                    <Anchors>
+                                                        <Anchor point="RIGHT" relativeKey="$parent.spellText" relativePoint="LEFT" x="-4" y="0"/>
+                                                    </Anchors>
+                                                    <TexCoords left="0.075" right="0.925" top="0.075" bottom="0.925"/>
+                                                </Texture>
+                                            </Layer>
+                                            <Layer level="ARTWORK">
+                                                <!-- border overlaying the icon for a consistent look -->
+                                                <Texture file="Interface\Buttons\UI-QuickSlot2">
+                                                    <Size x="40" y="40"/>
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" relativeKey="$parent.icon" relativePoint="TOPLEFT" x="-1" y="1"/>
+                                                    </Anchors>
+                                                    <TexCoords left="0.1875" right="0.796875" top="0.1875" bottom="0.796875"/>
+                                                </Texture>
+                                            </Layer>
+                                        </Layers>
+                                    </Frame>
+                                    <!-- bindFrame: display the key currently bound to the spell -->
+                                    <Frame parentKey="bindFrame" inherits="GroundedBorderTemplate">
+                                        <Size x="259" y="72"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeKey="$parent.spellFrame" relativePoint="BOTTOMLEFT"/>
+                                        </Anchors>
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString inherits="GameFontNormal" text="Press the key(s) to bind to this action">
+                                                    <Anchors>
+                                                        <Anchor point="TOP" x="0" y="-12"/>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString parentKey="bindText" inherits="GameFontHighlightHuge" text="SHIFT-C">
+                                                    <Anchors>
+                                                        <Anchor point="TOP" x="0" y="-38"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+                                    </Frame>
+                                    <!-- bindWarning: warn that this bind is already assigned to another action -->
+                                    <Frame parentKey="bindWarning" inherits="GroundedBorderTemplate">
+                                        <Size x="259" y="48"/>
+                                        <Anchors>
+                                            <Anchor point="TOPLEFT" relativeKey="$parent.bindFrame" relativePoint="BOTTOMLEFT"/>
+                                        </Anchors>
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString parentKey="warnText" inherits="GameFontNormal" justifyH="LEFT" text="This will override the binding for Action Button 1.">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" x="8" y="-6"/>
+                                                        <Anchor point="BOTTOMRIGHT" x="-6" y="6"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+                                    </Frame>
+                                    <!-- reservedWarning: warn when key is reserved and can't be used -->
+                                    <Frame parentKey="reservedWarning" inherits="GroundedBorderTemplate">
+                                        <Size x="259" y="32"/>
+                                        <KeyValues>
+                                            <KeyValue key="isWarning" value="true"/>
+                                        </KeyValues>
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString inherits="GameFontNormal" justifyH="CENTER" text="That key cannot be bound.">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" x="8" y="-6"/>
+                                                        <Anchor point="BOTTOMRIGHT" x="-6" y="6"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+                                    </Frame>
+                                    <!-- toyWarning: warn when user is binding a toy (doesn't cast @cursor) -->
+                                    <Frame parentKey="toyWarning" inherits="GroundedBorderTemplate">
+                                        <Size x="259" y="64"/>
+                                        <KeyValues>
+                                            <KeyValue key="isWarning" value="true"/>
+                                        </KeyValues>
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString inherits="GameFontNormal" justifyH="LEFT" text="This is a toy. The game client does not support casting toys at the cursor position.">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" x="8" y="-6"/>
+                                                        <Anchor point="BOTTOMRIGHT" x="-6" y="6"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+                                    </Frame>
+                                    <!-- buttonWarning: warn that this bind's key is a button which is not fully supported -->
+                                    <Frame parentKey="buttonWarning" inherits="GroundedBorderTemplate">
+                                        <Size x="259" y="72"/>
+                                        <KeyValues>
+                                            <KeyValue key="isWarning" value="true"/>
+                                        </KeyValues>
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString inherits="GameFontNormal" justifyH="LEFT" text="You've chosen to bind to a mouse button. The game client does not fully support Grounded's casting from mouse clicks to the game world.">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" x="8" y="-6"/>
+                                                        <Anchor point="BOTTOMRIGHT" x="-6" y="6"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+                                    </Frame>
+                                    <!-- editFrame: displays a red "Edit Down/Up Macros" button to show macroFrame -->
+                                    <Frame parentKey="editFrame" inherits="GroundedBorderTemplate">
+                                        <Size x="259" y="38"/>
+                                        <Frames>
+                                            <Button parentKey="editButton" inherits="GroundedPanelButtonTemplate" text="Edit Bind's Macros">
+                                                <Size x="243" y="22"/>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" x="8" y="-8"/>
+                                                </Anchors>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+                                    <!-- macroFrame: where the down/up macros can be edited -->
+                                    <Frame parentKey="macroFrame" inherits="GroundedBorderTemplate">
+                                        <Size x="259" y="228"/>
+                                        <Layers>
+                                            <Layer level="ARTWORK">
+                                                <FontString parentKey="downLabel" inherits="GameFontNormal" justifyH="LEFT" text="When the bind is pressed:">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" x="8" y="-8"/>
+                                                    </Anchors>
+                                                </FontString>
+                                                <FontString parentKey="upLabel" inherits="GameFontNormal" justifyH="LEFT" text="When the bind is released:">
+                                                    <Anchors>
+                                                        <Anchor point="TOPLEFT" x="8" y="-104"/>
+                                                    </Anchors>
+                                                </FontString>
+                                            </Layer>
+                                        </Layers>
+                                        <Frames>
+                                            <ScrollFrame parentKey="downEditBox" inherits="GroundedEditBoxTemplate">
+                                                <Size x="235" y="64"/>
+                                                <KeyValues>
+                                                    <KeyValue key="macroEditBox" value="down"/>
+                                                </KeyValues>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" relativeKey="$parent.downLabel" relativePoint="BOTTOMLEFT" x="4" y="-8"/>
+                                                </Anchors>
+                                            </ScrollFrame>
+                                            <ScrollFrame parentKey="upEditBox" inherits="GroundedEditBoxTemplate">
+                                                <Size x="235" y="64"/>
+                                                <KeyValues>
+                                                    <KeyValue key="macroEditBox" value="up"/>
+                                                </KeyValues>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" relativeKey="$parent.upLabel" relativePoint="BOTTOMLEFT" x="4" y="-8"/>
+                                                </Anchors>
+                                            </ScrollFrame>
+                                            <Button parentKey="resetButton" inherits="GroundedPanelButtonTemplate" text="Restore Bind's Macros">
+                                                <Size x="243" y="22"/>
+                                                <Anchors>
+                                                    <Anchor point="TOPLEFT" relativeKey="$parent.upEditBox" relativePoint="BOTTOMLEFT" x="-4" y="-10"/>
+                                                </Anchors>
+                                            </Button>
+                                        </Frames>
+                                    </Frame>
+                                    <!-- padding at bottom so there's a little space at bottom of scrollable list -->
+                                    <Frame parentKey="paddingFrame">
+                                        <Size x="259" y="8"/>
+                                    </Frame>
+                                </Frames>
+                            </Frame>
+                        </ScrollChild>
+                    </ScrollFrame>
+
+                </Frames>
+            </Frame> <!-- end bindInset -->
+
+        </Frames>
+
+        <Scripts>
+            <OnMouseDown>
+                self:StartMoving()
+            </OnMouseDown>
+            <OnMouseUp>
+                self:StopMovingOrSizing()
+            </OnMouseUp>
+            <OnLoad>
+                self:RegisterEvent("PLAYER_LOGIN")
+            </OnLoad>
+            <OnEvent>
+                self:OnEvent(event,...)
+            </OnEvent>
+            <OnShow>
+                self:OnShow()
+            </OnShow>
+            <OnHide>
+                self:OnHide()
+            </OnHide>
+        </Scripts>
+    </Frame>
+
+    <!-- round "tracking" button in the topright corner of the spellbook to toggle the addon's window -->
+    <Button name="GroundedToggleButton">
+        <Size x="32" y="32"/>
+        <NormalTexture file="Interface\AddOns\Grounded\textures">
+            <TexCoords left="0.5" right="1" top="0.5" bottom="1"/>
+        </NormalTexture>
+        <PushedTexture file="Interface\AddOns\Grounded\textures">
+            <TexCoords left="0" right="0.5" top="0.5" bottom="1"/>
+        </PushedTexture>
+        <HighlightTexture file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight" alphaMode="ADD"/>
+        <Scripts>
+            <OnClick>
+                GroundedFrame:SetShown(not GroundedFrame:IsVisible())
+            </OnClick>
+            <OnEnter>
+                GameTooltip:SetOwner(self,"ANCHOR_RIGHT")
+                GameTooltip:AddLine("Grounded")
+                GameTooltip:Show()
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide()
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+
+    <Script file="Grounded.lua"/>
+
+</Ui>
