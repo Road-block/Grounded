@@ -24,6 +24,16 @@ SlashCmdList["GROUNDED"] = function(msg)
     grounded:SetShown(not grounded:IsVisible())
 end
 
+local function getSpecIndex(...)
+    if _G.GetActiveTalentGroup then
+        return GetActiveTalentGroup(...)
+    elseif _G.GetActiveSpecGroup then
+        return GetActiveSpecGroup(...)
+    else
+        return 1 -- client with no dual spec, use a default
+    end
+end
+
 -- wrapper for GetSpellInfo
 local function getSpellInfo(spellID)
     if CLIENT_BUILD < 110000 then
@@ -52,6 +62,19 @@ local function getSpellTexture(spellID)
     end
 end
 
+local function charToSpec(specIndex)
+    local specContainer = {}
+    for i=#GroundedSavedBinds,1,-1 do
+        local spec = GroundedSavedBinds[i]
+        if spec[1] and (type(spec[1]) ~= "table") then -- not a bind array, old sv
+            -- migrate into the spec container
+            tinsert(specContainer,tremove(GroundedSavedBinds,i))
+        end
+    end
+    GroundedSavedBinds[specIndex] = GroundedSavedBinds[specIndex] or specContainer
+    grounded.savedBinds = GroundedSavedBinds[specIndex]
+end
+
 function grounded:OnEvent(event,...)
     if self[event] then
         self[event](self,...)
@@ -60,7 +83,11 @@ end
 
 -- on login finish setting up UI
 function grounded:PLAYER_LOGIN()
-    grounded.savedBinds = GroundedSavedBinds
+    grounded._specIndex = getSpecIndex()
+    charToSpec(grounded._specIndex)
+    if C_EventUtils.IsEventValid("ACTIVE_TALENT_GROUP_CHANGED") then
+        self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+    end
     -- finish setting up UI
     if CLASSIC_CLIENT then
         self.portrait:SetTexture("Interface\\AddOns\\Grounded\\textures")
@@ -103,6 +130,13 @@ function grounded:PLAYER_LOGIN()
     end
     -- finally, set up secure buttons to cast stuff
     self:UpdateSecureButtons()
+end
+
+function grounded:ACTIVE_TALENT_GROUP_CHANGED(...)
+    local currSpec, prevSpec = ...
+    grounded._specIndex = currSpec
+    charToSpec(grounded._specIndex)
+    grounded:UpdateSecureButtons()
 end
 
 -- entering combat (this is only active when window on screen)
