@@ -25,12 +25,16 @@ SlashCmdList["GROUNDED"] = function(msg)
 end
 
 local function getSpecIndex(...)
-    if _G.GetActiveTalentGroup then
-        return GetActiveTalentGroup(...)
-    elseif _G.GetActiveSpecGroup then
-        return GetActiveSpecGroup(...)
+    if CLASSIC_CLIENT then
+        if _G.GetActiveTalentGroup then
+            return GetActiveTalentGroup(...)
+        elseif _G.GetActiveSpecGroup then
+            return GetActiveSpecGroup(...)
+        else
+            return 1 -- client with no dual spec, use a default
+        end
     else
-        return 1 -- client with no dual spec, use a default
+        return GetSpecialization()
     end
 end
 
@@ -85,7 +89,10 @@ end
 function grounded:PLAYER_LOGIN()
     grounded._specIndex = getSpecIndex()
     charToSpec(grounded._specIndex)
-    if C_EventUtils.IsEventValid("ACTIVE_TALENT_GROUP_CHANGED") then
+
+    if C_EventUtils.IsEventValid("PLAYER_SPECIALIZATION_CHANGED") then
+        self:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+    elseif C_EventUtils.IsEventValid("ACTIVE_TALENT_GROUP_CHANGED") then
         self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     end
     -- finish setting up UI
@@ -96,6 +103,7 @@ function grounded:PLAYER_LOGIN()
         self.TitleText:ClearAllPoints()
         self.TitleText:SetPoint("TOPLEFT",32,-6)
         self.TitleText:SetPoint("TOPRIGHT",0,-6)
+
     else
         self.PortraitContainer.portrait:SetTexture("Interface\\AddOns\\Grounded\\textures")
         self.PortraitContainer.portrait:SetTexCoord(0,0.5,0,0.5)
@@ -135,6 +143,12 @@ end
 function grounded:ACTIVE_TALENT_GROUP_CHANGED(...)
     local currSpec, prevSpec = ...
     grounded._specIndex = currSpec
+    charToSpec(grounded._specIndex)
+    grounded:UpdateSecureButtons()
+end
+
+function grounded:PLAYER_SPECIALIZATION_CHANGED(...)
+    grounded._specIndex = getSpecIndex()
     charToSpec(grounded._specIndex)
     grounded:UpdateSecureButtons()
 end
