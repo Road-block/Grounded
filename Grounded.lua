@@ -88,6 +88,9 @@ function grounded:PLAYER_LOGIN()
     if C_EventUtils.IsEventValid("ACTIVE_TALENT_GROUP_CHANGED") then
         self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     end
+    if C_EventUtils.IsEventValid("PLAYER_SPECIALIZATION_CHANGED") then
+        self:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+    end
     -- finish setting up UI
     if CLASSIC_CLIENT then
         self.portrait:SetTexture("Interface\\AddOns\\Grounded\\textures")
@@ -120,11 +123,17 @@ function grounded:PLAYER_LOGIN()
         else
             GroundedToggleButton:SetPoint("TOPRIGHT",-24,-36)
         end
-
-        -- only show button when bookType is spell
-        hooksecurefunc("SpellBookFrame_Update",function(self)
-            GroundedToggleButton:SetShown(SpellBookFrame.bookType=="spell")
-        end)
+        if SpellBookFrame_Update then
+            -- only show button when bookType is spell
+            hooksecurefunc("SpellBookFrame_Update",function(self)
+                GroundedToggleButton:SetShown(SpellBookFrame.bookType=="spell")
+            end)
+        end
+        if SpellBookFrame and SpellBookFrame.Update then
+            hooksecurefunc(SpellBookFrame, "Update", function(self)
+                GroundedToggleButton:SetShown(SpellBookFrame.bookType==BOOKTYPE_SPELL)
+            end)
+        end
     else -- for TWW, wait until Blizzard_PlayerSpells is loaded to attach toggle button to spellbook
         self:RegisterEvent("ADDON_LOADED")
     end
@@ -137,6 +146,18 @@ function grounded:ACTIVE_TALENT_GROUP_CHANGED(...)
     grounded._specIndex = currSpec
     charToSpec(grounded._specIndex)
     grounded:UpdateSecureButtons()
+end
+
+function grounded:PLAYER_SPECIALIZATION_CHANGED(...)
+    local unit = ...
+    if UnitIsUnit(unit,"player") then
+        local prevSpec = grounded._specIndex
+        grounded._specIndex = getSpecIndex()
+        if grounded._specIndex ~= prevSpec then
+            charToSpec(grounded._specIndex)
+            grounded:UpdateSecureButtons()
+        end
+    end
 end
 
 -- entering combat (this is only active when window on screen)

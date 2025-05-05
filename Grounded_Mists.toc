@@ -1,4 +1,4 @@
-## Interface: 11507
+## Interface: 50500
 ## Title: Grounded
 ## Notes: Creates bindings to show the targeting reticle for ground-targeting spells on key down, and to cast at the cursor on key up.
 ## Author: Gello
@@ -7,5 +7,6 @@
 ## X-Wago-ID: Xb6XLP6p
 ## X-Curse-Project-ID: 439396
 ## SavedVariablesPerCharacter: GroundedSavedBinds
+## IconTexture: Interface\AddOns\Grounded\icon
 Grounded.xml
 
